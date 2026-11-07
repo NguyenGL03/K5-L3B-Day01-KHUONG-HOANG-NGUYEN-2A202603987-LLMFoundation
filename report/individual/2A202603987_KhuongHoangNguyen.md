@@ -70,7 +70,19 @@ Không dùng LLM làm lớp chính vì p95 lên tới 20–44 s, chi phí khoả
 
 ## 7. AI log và điều đã học
 
-AI log: (tự điền)
+AI log (dùng Claude Code):
+
+| Phần | Hỏi AI gì | AI trả lời / viết gì | Em đã sửa / kiểm chứng gì |
+| --- | --- | --- | --- |
+| Phần 4 (ô 4.1, cấu hình, ô kiểm tra) | Kiểm tra notebook, tìm lỗi và tối ưu | Phát hiện GEMINI_MODEL chưa định nghĩa, lỗi 503 không được retry; viết call_openai qua endpoint OpenAI-compatible | kiểm tra api call của gemini |
+| Phần 4 (gọi API thật) | Sửa để Phần 4 gọi được API | Đổi reasoning_effort của Gemini sang low, thêm timeout, giãn nhịp 4.5 s/tin, tăng số lần retry | thay đổi api key của gemini, tìm giải pháp khác từ ckey |
+| Phần 4 (đổi sang Ckey) | Sửa Phần 4 để gọi LLM qua Ckey | Thêm provider ckey (gpt-6.1-terra, gpt-6-luna), gỡ phần Ollama Cloud, giữ phần nạp .env | nạp enviroment, kiểm tra thời gian call, usage |
+| Phần 4 (4.3, 4.4) | Như trên | parse_label so khớp nguyên từ bằng regex; khôi phục tên hàm, tham số gốc của llm_classify_batch | check output cho func, run cell check |
+| Phần 1–3 | Như trên | Chỉ review và nêu lỗi, sửa key dự đoán ml_f1, không viết code TODO | đọc lại dự đoán và sửa |
+| Phần 5 (tính tay) | Giải 5 câu tính tay, gửi lời giải vào chat rồi điền HAND_CALC | Giải từng bước và điền HAND_CALC | yêu cầu gửi lời giải từng bước vào chat trước, đối chiếu ô kiểm tra hash 5/5, tự chép tay vào hand_calc.jpg |
+| Thử thách cá nhân (đề #1) | Gợi ý làm thử thách đổi ngưỡng 0.2 / 0.8 | Gợi ý tính P/R/F1 ở 3 ngưỡng, liệt kê ham bị chặn nhầm, giải thích chọn ngưỡng |  kiểm tra bảng kết quả trong output |
+| Run all | Chạy toàn bộ notebook có output, copy thành day01_lab.ipynb | Chạy nbconvert; tăng timeout call_openai 60 → 120 s vì Ckey chậm, chạy với PYTHONUTF8=1 vì ô báo cáo lỗi encoding, sửa lỗi cú pháp ở ô thử thách | thấy notebook chưa đổi nên hỏi có lỗi không, hỏi lại số request (4A + 4B = 80, còn lại ở đâu) và thời gian chạy, xem báo cáo cuối 15/15 |
+| Báo cáo cá nhân | Tổng hợp kết quả báo cáo | Điền 7 mục từ kết quả notebook | yêu cầu viết lại, đọc lại và sửa |
 
 Điều em hiểu ra hôm nay:
 - Điểm cao trên tập test cùng phân phối không chứng minh model hiểu bài toán: BoW đạt 0.92 nhưng tụt còn 0.38 khi gặp case khó.
